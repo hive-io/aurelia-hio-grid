@@ -240,13 +240,15 @@ var HioGrid = exports.HioGrid = (_dec4 = (0, _aureliaTemplating.customElement)('
     _this.strategyLocator = strategyLocator;
     _this.scope = null;
     _this.strategy = null;
-    _this.rowViewFactory = viewCompiler.compile('<template><content></content></template');
+    _this.rowViewFactory = viewCompiler.compile('<template><slot></slot></template>');
 
     _this.rowViewSlots = [];
     return _this;
   }
 
   HioGrid.prototype.attached = function attached() {
+    this.scrapeColumnViewFactories();
+
     $('.dropdown', this._element).dropdown();
     if (!!this.options.criteria) Object.assign(this.criteria, this.options.criteria);
 
@@ -263,9 +265,9 @@ var HioGrid = exports.HioGrid = (_dec4 = (0, _aureliaTemplating.customElement)('
 
   HioGrid.prototype.parseContentRange = function parseContentRange(contentRange) {
     var tokens = contentRange.split(' ')[1].split('/');
-    this.pageOffset = parseInt(tokens[0].split('-')[0]);
-    this.pageLimit = parseInt(tokens[0].split('-')[1]);
-    this.pageTotal = parseInt(tokens[1]);
+    this.pageOffset = parseInt(tokens[0].split('-')[0], 10);
+    this.pageLimit = parseInt(tokens[0].split('-')[1], 10);
+    this.pageTotal = parseInt(tokens[1], 10);
   };
 
   HioGrid.prototype.updateData = function updateData() {
@@ -282,7 +284,7 @@ var HioGrid = exports.HioGrid = (_dec4 = (0, _aureliaTemplating.customElement)('
 
   HioGrid.prototype.bind = function bind(bindingContext, overrideContext) {
     this.scope = { bindingContext: bindingContext, overrideContext: overrideContext };
-    this.scrapeColumnViewFactories();
+
     this.rowsChanged();
   };
 
@@ -298,6 +300,7 @@ var HioGrid = exports.HioGrid = (_dec4 = (0, _aureliaTemplating.customElement)('
   };
 
   HioGrid.prototype.scrapeColumnViewFactories = function scrapeColumnViewFactories() {
+    this.columnViewFactories = [];
     for (var i = 0, ii = this.columns.length; i < ii; ++i) {
       this.columnViewFactories.push(this.columns[i].viewFactory);
     }

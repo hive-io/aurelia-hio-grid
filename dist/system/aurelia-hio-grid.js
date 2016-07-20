@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['./hio-grid', './hio-grid-column'], function (_export, _context) {
+  "use strict";
+
   var HioGrid, HioGridColumn;
   return {
     setters: [function (_hioGrid) {

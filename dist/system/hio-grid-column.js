@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['aurelia-dependency-injection', 'aurelia-templating'], function (_export, _context) {
+  "use strict";
+
   var inject, bindable, customElement, noView, processContent, ViewCompiler, _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, HioGridColumn;
 
   function _initDefineProp(target, property, descriptor, context) {

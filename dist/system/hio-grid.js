@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['aurelia-dependency-injection', 'aurelia-templating', 'aurelia-binding', 'aurelia-templating-resources', './grid-utilities'], function (_export, _context) {
+  "use strict";
+
   var inject, Container, bindable, children, customElement, ViewCompiler, ViewSlot, computedFrom, ObserverLocator, AbstractRepeater, RepeatStrategyLocator, updateOneTimeBinding, overwriteArrayContents, _createClass, _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, HioGrid;
 
   function _initDefineProp(target, property, descriptor, context) {
@@ -154,13 +156,15 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', 'aurelia-
           _this.strategyLocator = strategyLocator;
           _this.scope = null;
           _this.strategy = null;
-          _this.rowViewFactory = viewCompiler.compile('<template><content></content></template');
+          _this.rowViewFactory = viewCompiler.compile('<template><slot></slot></template>');
 
           _this.rowViewSlots = [];
           return _this;
         }
 
         HioGrid.prototype.attached = function attached() {
+          this.scrapeColumnViewFactories();
+
           $('.dropdown', this._element).dropdown();
           if (!!this.options.criteria) Object.assign(this.criteria, this.options.criteria);
 
@@ -177,9 +181,9 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', 'aurelia-
 
         HioGrid.prototype.parseContentRange = function parseContentRange(contentRange) {
           var tokens = contentRange.split(' ')[1].split('/');
-          this.pageOffset = parseInt(tokens[0].split('-')[0]);
-          this.pageLimit = parseInt(tokens[0].split('-')[1]);
-          this.pageTotal = parseInt(tokens[1]);
+          this.pageOffset = parseInt(tokens[0].split('-')[0], 10);
+          this.pageLimit = parseInt(tokens[0].split('-')[1], 10);
+          this.pageTotal = parseInt(tokens[1], 10);
         };
 
         HioGrid.prototype.updateData = function updateData() {
@@ -196,7 +200,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', 'aurelia-
 
         HioGrid.prototype.bind = function bind(bindingContext, overrideContext) {
           this.scope = { bindingContext: bindingContext, overrideContext: overrideContext };
-          this.scrapeColumnViewFactories();
+
           this.rowsChanged();
         };
 
@@ -212,6 +216,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', 'aurelia-
         };
 
         HioGrid.prototype.scrapeColumnViewFactories = function scrapeColumnViewFactories() {
+          this.columnViewFactories = [];
           for (var i = 0, ii = this.columns.length; i < ii; ++i) {
             this.columnViewFactories.push(this.columns[i].viewFactory);
           }

@@ -10,7 +10,7 @@ System.config({
   },
   paths: {
     "github:*": "jspm_packages/github/*",
-    "aurelia-auth/*": "dist/*",
+    "aurelia-hio-grid/*": "dist/*",
     "npm:*": "jspm_packages/npm/*"
   },
 

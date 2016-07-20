@@ -1,5 +1,5 @@
 <template>
-  <content></content>
+  <slot></slot>
 
   <div class="ui small form">
     <div class="inline fields">
@@ -41,7 +41,7 @@
     <tfoot>
       <tr>
         <th colspan.bind="columns.length">
-          <select class="ui right floated compact dropdown button" value.bind="pageSize">
+          <select class="ui right floated tiny compact dropdown button" value.bind="pageSize">
             <option value="10">10</option>
             <option value="50">50</option>
             <option value="100">100</option>
