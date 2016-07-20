@@ -18,7 +18,8 @@ export class HioGridColumn {
   @bindable sortable
 
   constructor(element, viewCompiler) {
-    let field = (element.attributes.hasOwnProperty('field')) ? element.attributes.field.nodeValue : null;
+    let field = (element.attributes.hasOwnProperty('field')) ?
+      element.attributes.field.nodeValue : null;
     this.viewFactory = null;
     if (element.innerHTML.trim() !== '') {
       let template = `<template>${element.innerHTML}</template>`;

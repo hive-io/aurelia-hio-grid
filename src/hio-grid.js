@@ -45,12 +45,14 @@ export class HioGrid extends AbstractRepeater {
     this.scope = null;
     this.strategy = null;
     this.rowViewFactory =
-      viewCompiler.compile(`<template><content></content></template`);
+      viewCompiler.compile('<template><slot></slot></template>');
 
     this.rowViewSlots = [];
   }
 
   attached() {
+    this.scrapeColumnViewFactories();
+
     $('.dropdown', this._element).dropdown();
     if (!!this.options.criteria) Object.assign(this.criteria, this.options.criteria);
 
@@ -67,10 +69,10 @@ export class HioGrid extends AbstractRepeater {
   }
 
   parseContentRange(contentRange) {
-    var tokens = contentRange.split(' ')[1].split('/');
-    this.pageOffset = parseInt(tokens[0].split('-')[0]);
-    this.pageLimit = parseInt(tokens[0].split('-')[1]);
-    this.pageTotal = parseInt(tokens[1]);
+    let tokens = contentRange.split(' ')[1].split('/');
+    this.pageOffset = parseInt(tokens[0].split('-')[0], 10);
+    this.pageLimit = parseInt(tokens[0].split('-')[1], 10);
+    this.pageTotal = parseInt(tokens[1], 10);
   }
 
   updateData() {
@@ -88,7 +90,7 @@ export class HioGrid extends AbstractRepeater {
   // life-cycle business
   bind(bindingContext, overrideContext) {
     this.scope = { bindingContext, overrideContext };
-    this.scrapeColumnViewFactories();
+    // this.scrapeColumnViewFactories();
     this.rowsChanged();
   }
 
@@ -105,6 +107,7 @@ export class HioGrid extends AbstractRepeater {
 
   // view related
   scrapeColumnViewFactories() {
+    this.columnViewFactories = [];
     for (let i = 0, ii = this.columns.length; i < ii; ++i) {
       this.columnViewFactories.push(this.columns[i].viewFactory);
     }
@@ -252,15 +255,15 @@ export class HioGrid extends AbstractRepeater {
   sort(column) {
     this.sortColumn = column.header;
     switch (this.sortClass) {
-      case 'descending':
-        this.sortClass = 'ascending';
-        this.criteria.order = '-' + column.field;
-        break;
+    case 'descending':
+      this.sortClass = 'ascending';
+      this.criteria.order = '-' + column.field;
+      break;
 
-      default:
-        this.sortClass = 'descending';
-        this.criteria.order = column.field;
-        break;
+    default:
+      this.sortClass = 'descending';
+      this.criteria.order = column.field;
+      break;
     }
 
     return this.updateData();
