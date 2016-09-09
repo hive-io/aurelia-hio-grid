@@ -16,11 +16,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-templating'], functi
     });
   }
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
+  
 
   function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
     var desc = {};
@@ -58,7 +54,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-templating'], functi
   var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
   var HioGridColumn = exports.HioGridColumn = (_dec = (0, _aureliaTemplating.processContent)(false), _dec2 = (0, _aureliaTemplating.customElement)('hio-grid-column'), _dec3 = (0, _aureliaDependencyInjection.inject)(Element, _aureliaTemplating.ViewCompiler), (0, _aureliaTemplating.noView)(_class = _dec(_class = _dec2(_class = _dec3(_class = (_class2 = function HioGridColumn(element, viewCompiler) {
-    _classCallCheck(this, HioGridColumn);
+    
 
     _initDefineProp(this, 'header', _descriptor, this);
 

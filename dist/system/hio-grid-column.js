@@ -15,11 +15,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating'], function
     });
   }
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
+  
 
   function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
     var desc = {};
@@ -66,7 +62,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating'], function
     }],
     execute: function () {
       _export('HioGridColumn', HioGridColumn = (_dec = processContent(false), _dec2 = customElement('hio-grid-column'), _dec3 = inject(Element, ViewCompiler), noView(_class = _dec(_class = _dec2(_class = _dec3(_class = (_class2 = function HioGridColumn(element, viewCompiler) {
-        _classCallCheck(this, HioGridColumn);
+        
 
         _initDefineProp(this, 'header', _descriptor, this);
 

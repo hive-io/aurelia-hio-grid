@@ -1,0 +1,53 @@
+<template>
+  <slot></slot>
+
+  <div class="ui small form">
+    <div class="inline fields">
+      <div class="thirteen wide field">
+        <template replaceable part="action-bar"></template>
+        <div class="ui fluid icon input">
+          <input type="text" placeholder="Search ${options.model.plural}..." value.bind="searchQuery & debounce">
+          <i class="users icon"></i>
+        </div>
+      </div>
+      <div class="three wide field" style="margin-left: auto; width:auto !important;">
+        <span>
+          <b>${pageInfo.start}-${pageInfo.end}</b> of <b>${pageInfo.total}</b>
+        </span>
+        <div class="ui pagination menu">
+          <a class="${hasPreviousPage ? '' : 'disabled'} icon item" click.delegate="previousPage()">
+            <i class="left arrow icon"></i>
+          </a>
+          <a class="${hasNextPage ? '' : 'disabled'} icon item" click.delegate="nextPage()">
+            <i class="right arrow icon"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table ref="table" class="ui compact striped table">
+    <thead>
+      <tr>
+        <th repeat.for="column of columns" class="ui single line">
+          <a if.bind="!!column.sortable" href="#" click.delegate="sort(column)" class="ui single line">
+            ${column.header}<i class="sort ${ (sortColumn === column.header) ? sortClass : '' } icon"></i>
+          </a>
+          ${ !!column.sortable ? '' : column.header }
+        </th>
+      </tr>
+    </thead>
+    <tbody ref="tbody"></tbody>
+    <tfoot>
+      <tr>
+        <th colspan.bind="columns.length">
+          <select class="ui right floated tiny compact dropdown button" value.bind="pageSize">
+            <option value="10">10</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</template>

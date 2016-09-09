@@ -1,15 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.HioGridColumn = undefined;
-
 var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
-
-var _aureliaDependencyInjection = require('aurelia-dependency-injection');
-
-var _aureliaTemplating = require('aurelia-templating');
 
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
@@ -56,7 +45,10 @@ function _initializerWarningHelper(descriptor, context) {
   throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var HioGridColumn = exports.HioGridColumn = (_dec = (0, _aureliaTemplating.processContent)(false), _dec2 = (0, _aureliaTemplating.customElement)('hio-grid-column'), _dec3 = (0, _aureliaDependencyInjection.inject)(Element, _aureliaTemplating.ViewCompiler), (0, _aureliaTemplating.noView)(_class = _dec(_class = _dec2(_class = _dec3(_class = (_class2 = function HioGridColumn(element, viewCompiler) {
+import { inject } from 'aurelia-dependency-injection';
+import { bindable, customElement, noView, processContent, ViewCompiler } from 'aurelia-templating';
+
+export var HioGridColumn = (_dec = processContent(false), _dec2 = customElement('hio-grid-column'), _dec3 = inject(Element, ViewCompiler), noView(_class = _dec(_class = _dec2(_class = _dec3(_class = (_class2 = function HioGridColumn(element, viewCompiler) {
   
 
   _initDefineProp(this, 'header', _descriptor, this);
@@ -77,16 +69,16 @@ var HioGridColumn = exports.HioGridColumn = (_dec = (0, _aureliaTemplating.proce
     var _template = '<template>${row.' + field + '}</template>';
     this.viewFactory = viewCompiler.compile(_template);
   }
-}, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'header', [_aureliaTemplating.bindable], {
+}, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'header', [bindable], {
   enumerable: true,
   initializer: null
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'field', [_aureliaTemplating.bindable], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'field', [bindable], {
   enumerable: true,
   initializer: null
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'compact', [_aureliaTemplating.bindable], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'compact', [bindable], {
   enumerable: true,
   initializer: null
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'sortable', [_aureliaTemplating.bindable], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'sortable', [bindable], {
   enumerable: true,
   initializer: null
 })), _class2)) || _class) || _class) || _class) || _class);

@@ -1,4 +1,3 @@
-
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var to5 = require('gulp-babel');
@@ -26,6 +25,16 @@ function cleanGeneratedCode() {
   });
 }
 
+function removeDTSPlugin(options) {
+  var found = options.plugins.find(function(x){
+    return x instanceof Array;
+  });
+
+  var index = options.plugins.indexOf(found);
+  options.plugins.splice(index, 1);
+  return options;
+}
+
 gulp.task('build-index', function() {
   var importsToAdd = paths.importsToAdd.slice();
 
@@ -42,7 +51,8 @@ gulp.task('build-index', function() {
   }
 
   return src.pipe(through2.obj(function(file, enc, callback) {
-      file.contents = new Buffer(tools.extractImports(file.contents.toString('utf8'), importsToAdd));
+      file.contents =
+        new Buffer(tools.extractImports(file.contents.toString('utf8'), importsToAdd));
       this.push(file);
       return callback();
     }))
@@ -51,6 +61,12 @@ gulp.task('build-index', function() {
       return tools.createImportBlock(importsToAdd) + contents;
     }))
     .pipe(gulp.dest(paths.output));
+});
+
+gulp.task('build-es2015-temp', function () {
+    return gulp.src(paths.output + jsName)
+      .pipe(to5(assign({}, compilerOptions.commonjs())))
+      .pipe(gulp.dest(paths.output + 'temp'));
 });
 
 function gulpFileFromString(filename, string) {
@@ -64,7 +80,7 @@ function gulpFileFromString(filename, string) {
 
 function srcForBabel() {
   return merge(
-    gulp.src(paths.output + jsName),
+    gulp.src(paths.source),
     gulpFileFromString(paths.output + 'index.js', "export * from './" + paths.packageName + "';")
   );
 }
@@ -79,17 +95,22 @@ function srcForTypeScript() {
     }));
 }
 
-compileToModules.forEach(function(moduleType){
-  gulp.task('build-babel-' + moduleType, function () {
+compileToModules.forEach(function(moduleType) {
+  gulp.task('build-html-' + moduleType, function() {
+    return gulp.src(paths.html)
+      .pipe(gulp.dest(paths.output + moduleType));
+  });
+
+  gulp.task('build-babel-' + moduleType, function() {
     return srcForBabel()
-      .pipe(to5(assign({}, compilerOptions[moduleType]())))
+      .pipe(to5(assign({}, removeDTSPlugin(compilerOptions[moduleType]()))))
       .pipe(cleanGeneratedCode())
       .pipe(gulp.dest(paths.output + moduleType));
   });
 
   if (moduleType === 'native-modules') return; // typescript doesn't support the combination of: es5 + native modules
 
-  gulp.task('build-ts-' + moduleType, function () {
+  gulp.task('build-ts-' + moduleType, function() {
     var tsProject = ts.createProject(
       compilerTsOptions({ module: moduleType, target: moduleType == 'es2015' ? 'es2015' : 'es5' }), ts.reporter.defaultReporter());
     var tsResult = srcForTypeScript().pipe(ts(tsProject));
@@ -98,8 +119,11 @@ compileToModules.forEach(function(moduleType){
   });
 });
 
-gulp.task('build-dts', function(){
-  return gulp.src(paths.root + paths.packageName + '.d.ts')
+gulp.task('build-dts', function() {
+  var tsProject = ts.createProject(
+    compilerTsOptions({ removeComments: false, target: "es2015", module: "es2015" }), ts.reporter.defaultReporter());
+  var tsResult = srcForTypeScript().pipe(ts(tsProject));
+  return tsResult.dts
     .pipe(gulp.dest(paths.output));
 });
 
@@ -107,9 +131,12 @@ gulp.task('build', function(callback) {
   return runSequence(
     'clean',
     'build-index',
+    'build-es2015-temp',
     compileToModules
-      .map(function(moduleType) { return 'build-babel-' + moduleType })
-      .concat(['build-dts']),
+      .map(function(moduleType) { return 'build-html-' + moduleType; }),
+    compileToModules
+      .map(function(moduleType) { return 'build-babel-' + moduleType; })
+      .concat(paths.useTypeScriptForDTS ? ['build-dts'] : []),
     callback
   );
 });
@@ -120,8 +147,8 @@ gulp.task('build-ts', function(callback) {
     'build-index',
     'build-babel-native-modules',
     compileToModules
-      .filter(function(moduleType) { return moduleType !== 'native-modules' })
-      .map(function(moduleType) { return 'build-ts-' + moduleType })
+      .filter(function(moduleType) { return moduleType !== 'native-modules'; })
+      .map(function(moduleType) { return 'build-ts-' + moduleType; })
       .concat(paths.useTypeScriptForDTS ? ['build-dts'] : []),
     callback
   );

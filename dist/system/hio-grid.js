@@ -15,11 +15,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', 'aurelia-
     });
   }
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
+  
 
   function _possibleConstructorReturn(self, call) {
     if (!self) {
@@ -121,7 +117,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', 'aurelia-
         _inherits(HioGrid, _AbstractRepeater);
 
         function HioGrid(container, viewSlot, viewCompiler, observerLocator, strategyLocator) {
-          _classCallCheck(this, HioGrid);
+          
 
           var _this = _possibleConstructorReturn(this, _AbstractRepeater.call(this, {
             local: 'row',

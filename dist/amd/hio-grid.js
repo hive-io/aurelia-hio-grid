@@ -16,11 +16,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aureli
     });
   }
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
+  
 
   var _createClass = function () {
     function defineProperties(target, props) {
@@ -103,7 +99,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aureli
     _inherits(HioGrid, _AbstractRepeater);
 
     function HioGrid(container, viewSlot, viewCompiler, observerLocator, strategyLocator) {
-      _classCallCheck(this, HioGrid);
+      
 
       var _this = _possibleConstructorReturn(this, _AbstractRepeater.call(this, {
         local: 'row',

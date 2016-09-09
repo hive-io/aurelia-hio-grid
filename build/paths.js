@@ -14,24 +14,18 @@ var paths = {
   html: appRoot + '**/*.html',
   style: 'styles/**/*.css',
   output: 'dist/',
-  doc:'./doc',
+  doc: './doc',
   e2eSpecsSrc: 'test/e2e/src/*.js',
   e2eSpecsDist: 'test/e2e/dist/',
-  exampleSource: 'doc/example/',
-  exampleOutput: 'doc/example-dist/',
   packageName: pkg.name,
-  ignore: [],
   useTypeScriptForDTS: false,
   importsToAdd: [],
-  sort: false
+  sort: true
 };
 
+paths.ignore = ['aurelia-hio-grid.js'];
 paths.files = [
-  'grid-utilities.js',
-  'hio-grid.js',
-  'hio-grid-column.js'
-].map(function(file){
-  return paths.root + file;
-});
+  paths.source
+];
 
 module.exports = paths;
