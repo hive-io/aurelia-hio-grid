@@ -7,7 +7,7 @@ exports.HioGrid = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
@@ -68,10 +68,10 @@ function _initializerWarningHelper(descriptor, context) {
   throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var HioGrid = exports.HioGrid = (_dec = (0, _aureliaTemplating.customElement)('hio-grid'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaDependencyInjection.Container, _aureliaTemplating.ViewSlot, _aureliaTemplating.ViewCompiler, _aureliaBinding.ObserverLocator, _aureliaTemplatingResources.RepeatStrategyLocator), _dec3 = (0, _aureliaTemplating.children)('hio-grid-column'), _dec4 = (0, _aureliaBinding.computedFrom)('pageOffset', 'pageSize', 'pageTotal'), _dec5 = (0, _aureliaBinding.computedFrom)('pageOffset', 'pageSize', 'pageTotal'), _dec6 = (0, _aureliaBinding.computedFrom)('pageOffset', 'pageSize', 'pageTotal'), _dec(_class = _dec2(_class = (_class2 = function (_AbstractRepeater) {
+var HioGrid = exports.HioGrid = (_dec = (0, _aureliaTemplating.customElement)('hio-grid'), _dec2 = (0, _aureliaDependencyInjection.inject)(Element, _aureliaDependencyInjection.Container, _aureliaTemplating.ViewSlot, _aureliaTemplating.ViewCompiler, _aureliaBinding.ObserverLocator, _aureliaTemplatingResources.RepeatStrategyLocator), _dec3 = (0, _aureliaBinding.computedFrom)('pageOffset', 'pageSize', 'pageTotal'), _dec4 = (0, _aureliaBinding.computedFrom)('pageOffset', 'pageSize', 'pageTotal'), _dec5 = (0, _aureliaBinding.computedFrom)('pageOffset', 'pageSize', 'pageTotal'), _dec(_class = _dec2(_class = (_class2 = function (_AbstractRepeater) {
   _inherits(HioGrid, _AbstractRepeater);
 
-  function HioGrid(container, viewSlot, viewCompiler, observerLocator, strategyLocator) {
+  function HioGrid(element, container, viewSlot, viewCompiler, observerLocator, strategyLocator) {
     
 
     var _this = _possibleConstructorReturn(this, _AbstractRepeater.call(this, {
@@ -79,15 +79,13 @@ var HioGrid = exports.HioGrid = (_dec = (0, _aureliaTemplating.customElement)('h
       viewsRequireLifecycle: false
     }));
 
-    _initDefineProp(_this, 'columns', _descriptor, _this);
+    _initDefineProp(_this, 'rows', _descriptor, _this);
 
-    _initDefineProp(_this, 'rows', _descriptor2, _this);
+    _initDefineProp(_this, 'class', _descriptor2, _this);
 
-    _initDefineProp(_this, 'class', _descriptor3, _this);
+    _initDefineProp(_this, 'options', _descriptor3, _this);
 
-    _initDefineProp(_this, 'options', _descriptor4, _this);
-
-    _initDefineProp(_this, 'searchQuery', _descriptor5, _this);
+    _initDefineProp(_this, 'searchQuery', _descriptor4, _this);
 
     _this.sortColumn = null;
     _this.sortClass = null;
@@ -95,12 +93,14 @@ var HioGrid = exports.HioGrid = (_dec = (0, _aureliaTemplating.customElement)('h
     _this.pageLimit = 0;
     _this.pageTotal = 0;
 
-    _initDefineProp(_this, 'pageSize', _descriptor6, _this);
+    _initDefineProp(_this, 'pageSize', _descriptor5, _this);
 
     _this.criteria = { offset: 0, limit: 10, order: null };
+    _this.columns = [];
     _this.columnViewFactories = [];
 
 
+    _this.element = element;
     _this.container = container;
     _this.viewSlot = viewSlot;
     _this.observerLocator = observerLocator;
@@ -114,6 +114,7 @@ var HioGrid = exports.HioGrid = (_dec = (0, _aureliaTemplating.customElement)('h
   }
 
   HioGrid.prototype.attached = function attached() {
+    this.columns = (0, _gridUtilities.getChildViewModels)(this.element, 'hio-grid-column');
     this.scrapeColumnViewFactories();
 
     $('.dropdown', this._element).dropdown();
@@ -373,28 +374,23 @@ var HioGrid = exports.HioGrid = (_dec = (0, _aureliaTemplating.customElement)('h
   }]);
 
   return HioGrid;
-}(_aureliaTemplatingResources.AbstractRepeater), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'columns', [_dec3], {
+}(_aureliaTemplatingResources.AbstractRepeater), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'rows', [_aureliaTemplating.bindable], {
   enumerable: true,
   initializer: function initializer() {
     return [];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'rows', [_aureliaTemplating.bindable], {
-  enumerable: true,
-  initializer: function initializer() {
-    return [];
-  }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'class', [_aureliaTemplating.bindable], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'class', [_aureliaTemplating.bindable], {
   enumerable: true,
   initializer: null
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'options', [_aureliaTemplating.bindable], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'options', [_aureliaTemplating.bindable], {
   enumerable: true,
   initializer: null
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'searchQuery', [_aureliaTemplating.bindable], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'searchQuery', [_aureliaTemplating.bindable], {
   enumerable: true,
   initializer: null
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'pageSize', [_aureliaTemplating.bindable], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'pageSize', [_aureliaTemplating.bindable], {
   enumerable: true,
   initializer: function initializer() {
     return 10;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, 'hasNextPage', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'hasNextPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hasPreviousPage', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'hasPreviousPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pageInfo', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'pageInfo'), _class2.prototype)), _class2)) || _class) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, 'hasNextPage', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'hasNextPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hasPreviousPage', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'hasPreviousPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pageInfo', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'pageInfo'), _class2.prototype)), _class2)) || _class) || _class);

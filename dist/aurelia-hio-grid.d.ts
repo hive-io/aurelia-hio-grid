@@ -15,7 +15,6 @@ import {
   noView,
   processContent,
   ViewCompiler,
-  children,
   ViewSlot
 } from 'aurelia-templating';
 import {
@@ -74,6 +73,11 @@ export declare function updateOneTimeBinding(binding?: any): any;
  * Overwrites array `dst` contents with `src`
  */
 export declare function overwriteArrayContents(dst?: any, src?: any): any;
+
+/**
+ * A replacement for @children, since there are timing issues there
+ */
+export declare function getChildViewModels(element?: any, cssSelector?: any): any;
 export declare class HioGridColumn {
   header: any;
   field: any;
@@ -82,7 +86,6 @@ export declare class HioGridColumn {
   constructor(element?: any, viewCompiler?: any);
 }
 export declare class HioGrid extends AbstractRepeater {
-  columns: any;
   rows: any;
   class: any;
   options: any;
@@ -98,8 +101,9 @@ export declare class HioGrid extends AbstractRepeater {
   pageTotal: any;
   pageSize: any;
   criteria: any;
+  columns: any;
   columnViewFactories: any;
-  constructor(container?: any, viewSlot?: any, viewCompiler?: any, observerLocator?: any, strategyLocator?: any);
+  constructor(element?: any, container?: any, viewSlot?: any, viewCompiler?: any, observerLocator?: any, strategyLocator?: any);
   attached(): any;
   parseContentRange(contentRange?: any): any;
   updateData(): any;

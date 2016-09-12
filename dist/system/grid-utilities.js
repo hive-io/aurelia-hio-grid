@@ -108,6 +108,22 @@ System.register(['aurelia-framework'], function (_export, _context) {
 
   _export('overwriteArrayContents', overwriteArrayContents);
 
+  function getChildViewModels(element, cssSelector) {
+    var elements = $(element).children(cssSelector);
+    var viewModels = [];
+    elements.each(function (index, elem) {
+      if (elem.au && elem.au.controller) {
+        viewModels.push(elem.au.controller.viewModel);
+      } else {
+        throw new Error('au property not found on element ' + elem.tagName + '. Did you load this custom element via <require> or via main.js?');
+      }
+    });
+
+    return viewModels;
+  }
+
+  _export('getChildViewModels', getChildViewModels);
+
   return {
     setters: [function (_aureliaFramework) {
       createOverrideContext = _aureliaFramework.createOverrideContext;

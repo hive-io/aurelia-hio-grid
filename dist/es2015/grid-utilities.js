@@ -84,3 +84,17 @@ export function overwriteArrayContents(dst, src) {
   for (; i < src.length; i++) dst.push(src[i]);
   while (i < dst.length) dst.pop();
 }
+
+export function getChildViewModels(element, cssSelector) {
+  let elements = $(element).children(cssSelector);
+  let viewModels = [];
+  elements.each((index, elem) => {
+    if (elem.au && elem.au.controller) {
+      viewModels.push(elem.au.controller.viewModel);
+    } else {
+      throw new Error(`au property not found on element ${ elem.tagName }. Did you load this custom element via <require> or via main.js?`);
+    }
+  });
+
+  return viewModels;
+}

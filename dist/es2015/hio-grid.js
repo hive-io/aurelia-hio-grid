@@ -1,4 +1,4 @@
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
@@ -44,28 +44,26 @@ function _initializerWarningHelper(descriptor, context) {
 }
 
 import { inject, Container } from 'aurelia-dependency-injection';
-import { bindable, children, customElement, ViewCompiler, ViewSlot } from 'aurelia-templating';
+import { bindable, customElement, ViewCompiler, ViewSlot } from 'aurelia-templating';
 import { computedFrom, ObserverLocator } from 'aurelia-binding';
 import { AbstractRepeater, RepeatStrategyLocator } from 'aurelia-templating-resources';
-import { updateOneTimeBinding, overwriteArrayContents } from './grid-utilities';
+import { updateOneTimeBinding, overwriteArrayContents, getChildViewModels } from './grid-utilities';
 
-export let HioGrid = (_dec = customElement('hio-grid'), _dec2 = inject(Container, ViewSlot, ViewCompiler, ObserverLocator, RepeatStrategyLocator), _dec3 = children('hio-grid-column'), _dec4 = computedFrom('pageOffset', 'pageSize', 'pageTotal'), _dec5 = computedFrom('pageOffset', 'pageSize', 'pageTotal'), _dec6 = computedFrom('pageOffset', 'pageSize', 'pageTotal'), _dec(_class = _dec2(_class = (_class2 = class HioGrid extends AbstractRepeater {
+export let HioGrid = (_dec = customElement('hio-grid'), _dec2 = inject(Element, Container, ViewSlot, ViewCompiler, ObserverLocator, RepeatStrategyLocator), _dec3 = computedFrom('pageOffset', 'pageSize', 'pageTotal'), _dec4 = computedFrom('pageOffset', 'pageSize', 'pageTotal'), _dec5 = computedFrom('pageOffset', 'pageSize', 'pageTotal'), _dec(_class = _dec2(_class = (_class2 = class HioGrid extends AbstractRepeater {
 
-  constructor(container, viewSlot, viewCompiler, observerLocator, strategyLocator) {
+  constructor(element, container, viewSlot, viewCompiler, observerLocator, strategyLocator) {
     super({
       local: 'row',
       viewsRequireLifecycle: false
     });
 
-    _initDefineProp(this, 'columns', _descriptor, this);
+    _initDefineProp(this, 'rows', _descriptor, this);
 
-    _initDefineProp(this, 'rows', _descriptor2, this);
+    _initDefineProp(this, 'class', _descriptor2, this);
 
-    _initDefineProp(this, 'class', _descriptor3, this);
+    _initDefineProp(this, 'options', _descriptor3, this);
 
-    _initDefineProp(this, 'options', _descriptor4, this);
-
-    _initDefineProp(this, 'searchQuery', _descriptor5, this);
+    _initDefineProp(this, 'searchQuery', _descriptor4, this);
 
     this.sortColumn = null;
     this.sortClass = null;
@@ -73,10 +71,12 @@ export let HioGrid = (_dec = customElement('hio-grid'), _dec2 = inject(Container
     this.pageLimit = 0;
     this.pageTotal = 0;
 
-    _initDefineProp(this, 'pageSize', _descriptor6, this);
+    _initDefineProp(this, 'pageSize', _descriptor5, this);
 
     this.criteria = { offset: 0, limit: 10, order: null };
+    this.columns = [];
     this.columnViewFactories = [];
+    this.element = element;
     this.container = container;
     this.viewSlot = viewSlot;
     this.observerLocator = observerLocator;
@@ -89,6 +89,7 @@ export let HioGrid = (_dec = customElement('hio-grid'), _dec2 = inject(Container
   }
 
   attached() {
+    this.columns = getChildViewModels(this.element, 'hio-grid-column');
     this.scrapeColumnViewFactories();
 
     $('.dropdown', this._element).dropdown();
@@ -335,28 +336,23 @@ export let HioGrid = (_dec = customElement('hio-grid'), _dec2 = inject(Container
 
     return this.updateData();
   }
-}, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'columns', [_dec3], {
+}, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'rows', [bindable], {
   enumerable: true,
   initializer: function () {
     return [];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'rows', [bindable], {
-  enumerable: true,
-  initializer: function () {
-    return [];
-  }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'class', [bindable], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'class', [bindable], {
   enumerable: true,
   initializer: null
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'options', [bindable], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'options', [bindable], {
   enumerable: true,
   initializer: null
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'searchQuery', [bindable], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'searchQuery', [bindable], {
   enumerable: true,
   initializer: null
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'pageSize', [bindable], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'pageSize', [bindable], {
   enumerable: true,
   initializer: function () {
     return 10;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, 'hasNextPage', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'hasNextPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hasPreviousPage', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'hasPreviousPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pageInfo', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'pageInfo'), _class2.prototype)), _class2)) || _class) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, 'hasNextPage', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'hasNextPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hasPreviousPage', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'hasPreviousPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pageInfo', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'pageInfo'), _class2.prototype)), _class2)) || _class) || _class);

@@ -12,6 +12,7 @@ define(['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
   exports.isOneTime = isOneTime;
   exports.updateOneTimeBinding = updateOneTimeBinding;
   exports.overwriteArrayContents = overwriteArrayContents;
+  exports.getChildViewModels = getChildViewModels;
 
 
   var oneTime = _aureliaFramework.bindingMode.oneTime;
@@ -102,5 +103,19 @@ define(['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
     }while (i < dst.length) {
       dst.pop();
     }
+  }
+
+  function getChildViewModels(element, cssSelector) {
+    var elements = $(element).children(cssSelector);
+    var viewModels = [];
+    elements.each(function (index, elem) {
+      if (elem.au && elem.au.controller) {
+        viewModels.push(elem.au.controller.viewModel);
+      } else {
+        throw new Error('au property not found on element ' + elem.tagName + '. Did you load this custom element via <require> or via main.js?');
+      }
+    });
+
+    return viewModels;
   }
 });

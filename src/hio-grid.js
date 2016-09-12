@@ -1,19 +1,21 @@
 import {inject, Container} from 'aurelia-dependency-injection';
 import {
   bindable,
-  children,
   customElement,
   ViewCompiler,
   ViewSlot
 } from 'aurelia-templating';
 import {computedFrom, ObserverLocator} from 'aurelia-binding';
 import {AbstractRepeater, RepeatStrategyLocator} from 'aurelia-templating-resources';
-import {updateOneTimeBinding, overwriteArrayContents} from './grid-utilities';
+import {
+  updateOneTimeBinding,
+  overwriteArrayContents,
+  getChildViewModels
+} from './grid-utilities';
 
 @customElement('hio-grid')
-@inject(Container, ViewSlot, ViewCompiler, ObserverLocator, RepeatStrategyLocator)
+@inject(Element, Container, ViewSlot, ViewCompiler, ObserverLocator, RepeatStrategyLocator)
 export class HioGrid extends AbstractRepeater {
-  @children('hio-grid-column') columns = [];
   @bindable rows = [];
   @bindable class;
   @bindable options;
@@ -30,14 +32,16 @@ export class HioGrid extends AbstractRepeater {
   @bindable pageSize = 10;
 
   criteria = { offset: 0, limit: 10, order: null };
+  columns = [];
   columnViewFactories = [];
 
-  constructor(container, viewSlot, viewCompiler, observerLocator, strategyLocator) {
+  constructor(element, container, viewSlot, viewCompiler, observerLocator, strategyLocator) {
     super({
       local: 'row',
       viewsRequireLifecycle: false
     });
 
+    this.element = element;
     this.container = container;
     this.viewSlot = viewSlot;
     this.observerLocator = observerLocator;
@@ -51,6 +55,7 @@ export class HioGrid extends AbstractRepeater {
   }
 
   attached() {
+    this.columns = getChildViewModels(this.element, 'hio-grid-column');
     this.scrapeColumnViewFactories();
 
     $('.dropdown', this._element).dropdown();
